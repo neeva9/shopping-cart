@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 /**
  * Entity object for Order details.
@@ -27,7 +26,7 @@ public class Orders {
     private Integer orderId;
 
     @Column(name = "CART_ID")
-    private Integer cartId;
+    private String cartId;
 
     @Column(name = "CREATED_DATE")
     private ZonedDateTime createdDate;

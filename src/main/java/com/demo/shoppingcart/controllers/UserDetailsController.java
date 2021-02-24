@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(value = "/v1", tags = "Product Details")
+@Api(value = "/v1", tags = "User Details")
 @RestController
 @RequestMapping(value = "/v1/user", produces = "application/json")
 public class UserDetailsController {
 
-    private UserService userService;
+    private final UserService userService;
 
 
     public UserDetailsController(final UserService userService) {
         this.userService = userService;
     }
 
-    @ApiOperation(value = "Obtain list of Product details",
+    @ApiOperation(value = "Obtain list of User details",
             response = UserDetail.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),

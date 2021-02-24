@@ -5,12 +5,15 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 
+/**
+ * Product Details
+ */
 @Data
 @Getter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProductDetail {
 
-    @ApiModelProperty(notes = "Product Id", example = "1")
+    @ApiModelProperty(notes = "Product Id", example = "123")
     private String productId;
 
     @ApiModelProperty(notes = "Product Name", example = "ABC Item")

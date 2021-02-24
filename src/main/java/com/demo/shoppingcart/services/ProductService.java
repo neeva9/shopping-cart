@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,10 +21,10 @@ public class ProductService {
         Iterable<Product> products = productRepository.findAll();
         products.forEach(product -> {
             ProductDetail productDetail = new ProductDetail();
-            productDetail.setProductId(String.valueOf(product.getProductId()));
-            productDetail.setProductName(product.getName());
-            productDetail.setProductDescrpt(product.getDescription());
-            productDetail.setProductRate(product.getRate());
+            productDetail.setProductId(product.getProductId() != null ? String.valueOf(product.getProductId()) : null);
+            productDetail.setProductName(product.getName() != null ? product.getName() : null);
+            productDetail.setProductDescrpt(product.getDescription()!=null?product.getDescription():null);
+            productDetail.setProductRate(product.getRate()!=null?product.getRate():null);
 
             productDetails.add(productDetail);
         });

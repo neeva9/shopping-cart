@@ -5,6 +5,7 @@ import com.demo.shoppingcart.controllers.data.CartRequest;
 import com.demo.shoppingcart.entity.Cart;
 import com.demo.shoppingcart.entity.Product;
 import com.demo.shoppingcart.entity.Profile;
+import com.demo.shoppingcart.exception.CartNotFoundException;
 import com.demo.shoppingcart.exception.ProductNotFoundException;
 import com.demo.shoppingcart.exception.UserNotFoundException;
 import com.demo.shoppingcart.repository.CartRepository;
@@ -47,7 +48,7 @@ public class CartService {
             cartDetail.setProductId(cart.getProductId().toString());
             cartDetail.setTotal(String.valueOf(cart.getTotal()));
             cartDetail.setCreatedDate(String.valueOf(cart.getCreatedDate()));
-            cartDetail.setCreatedDate(cart.getUpdatedDate() != null ? String.valueOf(cart.getUpdatedDate()) : null);
+            cartDetail.setUpdatedDate(cart.getUpdatedDate() != null ? String.valueOf(cart.getUpdatedDate()) : null);
             cartDetails.add(cartDetail);
         });
         return cartDetails;
@@ -57,9 +58,9 @@ public class CartService {
         List<Cart> cartList = new ArrayList<>();
         Optional<Product> productRepositoryById = productRepository.findById(Integer.parseInt(cartRequest.getProductId()));
         if (productRepositoryById.isPresent()) {
-            Cart byProfileIdAndPrdtId = cartRepository.findByProfileIdAndPrdtId(userId.get().getProfileId().toString(), productRepositoryById.get().getProductId().toString());
+            Cart existingCart = cartRepository.findByProfileIdAndPrdtId(userId.get().getProfileId().toString(), productRepositoryById.get().getProductId().toString());
 
-            if (byProfileIdAndPrdtId == null) {
+            if (existingCart == null) {
 
                 Cart cart = new Cart();
                 cart.setProductId(productRepositoryById.get().getProductId());
@@ -69,10 +70,10 @@ public class CartService {
                 cartList.add(cartRepository.save(cart));
 
             } else {
-                byProfileIdAndPrdtId.setQuantity(Integer.valueOf(cartRequest.getQuantity()));
-                byProfileIdAndPrdtId.setTotal(Double.valueOf(Math.round(Integer.valueOf(cartRequest.getQuantity()) * productRepositoryById.get().getRate())));
-                byProfileIdAndPrdtId.setUpdatedDate(ZonedDateTime.now());
-                cartList.add(cartRepository.save(byProfileIdAndPrdtId));
+                existingCart.setQuantity(Integer.valueOf(cartRequest.getQuantity()));
+                existingCart.setTotal(Double.valueOf(Math.round(Integer.valueOf(cartRequest.getQuantity()) * productRepositoryById.get().getRate())));
+                existingCart.setUpdatedDate(ZonedDateTime.now());
+                cartList.add(cartRepository.save(existingCart));
             }
 
 
@@ -91,7 +92,11 @@ public class CartService {
         }
     }
 
-    public void removeProductFromCart(int id) {
-        cartRepository.deleteById(id);
+    public void removeProductFromCart(int cartId) {
+        try {
+            cartRepository.deleteById(cartId);
+        } catch (Exception e) {
+            throw new CartNotFoundException("Cart Not Found");
+        }
     }
 }

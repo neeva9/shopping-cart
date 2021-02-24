@@ -1,33 +1,25 @@
 package com.demo.shoppingcart.controllers;
 
 import com.demo.shoppingcart.controllers.data.ProductDetail;
-import com.demo.shoppingcart.entity.Product;
-import com.demo.shoppingcart.repository.ProductRepository;
 import com.demo.shoppingcart.services.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Api(value = "/v1", tags = "Product Details")
 @RestController
 @RequestMapping(value = "/v1/product", produces = "application/json")
 public class ProductDetailsController {
 
-    private ProductService productService;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductService productService;
 
     public ProductDetailsController(final ProductService productService) {
         this.productService = productService;
