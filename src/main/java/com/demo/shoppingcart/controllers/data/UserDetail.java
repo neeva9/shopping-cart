@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 
+/**
+ * User Details
+ */
 @Data
 @Getter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -22,7 +25,7 @@ public class UserDetail {
     @ApiModelProperty(notes = "Phone Number", example = "1234567890")
     private String phoneNo;
 
-    @ApiModelProperty(notes = "Email Addres", example = "abc.email@test.com")
+    @ApiModelProperty(notes = "Email Address", example = "abc.email@test.com")
     private String email;
 
 }

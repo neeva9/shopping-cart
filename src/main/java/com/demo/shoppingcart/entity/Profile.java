@@ -6,13 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Entity object for User details.
  */
 @Entity
-@Table(name="PROFILE", schema = "dbo")
+@Table(name = "PROFILE", schema = "dbo")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,21 +20,19 @@ public class Profile {
 
     @Id
     @Column(name = "PROFILE_ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer profileId;
 
-    @Column(name="FIRST_NAME")
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Column(name="LAST_NAME")
+    @Column(name = "LAST_NAME")
     private String lastName;
 
-    @Column(name="PHONE")
+    @Column(name = "PHONE")
     private String phone;
 
-    @Column(name="EMAIL")
+    @Column(name = "EMAIL")
     private String email;
 
-//    @OneToMany(mappedBy = "profileDetails")
-//    private List<Cart> cartList;
 }

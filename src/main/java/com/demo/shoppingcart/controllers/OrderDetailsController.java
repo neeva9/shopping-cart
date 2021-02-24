@@ -1,32 +1,33 @@
 package com.demo.shoppingcart.controllers;
 
-import com.demo.shoppingcart.controllers.data.CartDetail;
-import com.demo.shoppingcart.controllers.data.CartRequest;
 import com.demo.shoppingcart.controllers.data.OrderDetail;
-import com.demo.shoppingcart.services.CartService;
 import com.demo.shoppingcart.services.OrderService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(value = "/v1", tags = "Product Details")
+@Api(value = "/v1", tags = "Order Details")
 @RestController
 @RequestMapping(value = "/v1/order", produces = "application/json")
-public class OrderController {
+public class OrderDetailsController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
 
-    public OrderController(final OrderService orderService) {
+    public OrderDetailsController(final OrderService orderService) {
         this.orderService = orderService;
     }
 
-    @ApiOperation(value = "Obtain list of Product details",
+    @ApiOperation(value = "Place order for user",
             response = OrderDetail.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
@@ -34,7 +35,7 @@ public class OrderController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @PostMapping("{userId}")
-    public ResponseEntity<List<OrderDetail>> checkoutOrder(@PathVariable int userId) {
+    public ResponseEntity<List<OrderDetail>> checkoutOrder(@PathVariable String userId) {
 
         List<OrderDetail> orderDetails = orderService.checkoutOrder(userId);
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);

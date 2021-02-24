@@ -2,7 +2,7 @@ package com.demo.shoppingcart.controllers;
 
 import com.demo.shoppingcart.controllers.data.CartDetail;
 import com.demo.shoppingcart.controllers.data.CartRequest;
-import com.demo.shoppingcart.controllers.data.UserDetail;
+import com.demo.shoppingcart.exception.InvalidRequestException;
 import com.demo.shoppingcart.services.CartService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -11,22 +11,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Api(value = "/v1", tags = "Product Details")
+@Api(value = "/v1", tags = "Cart Details")
 @RestController
 @RequestMapping(value = "/v1/cart", produces = "application/json")
-public class CartController {
+public class CartDetailsController {
 
-    private CartService cartService;
+    private final CartService cartService;
 
 
-    public CartController(final CartService cartService) {
+    public CartDetailsController(final CartService cartService) {
         this.cartService = cartService;
     }
 
-    @ApiOperation(value = "Obtain list of Product details",
+    @ApiOperation(value = "Add or update product to cart",
             response = CartDetail.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
@@ -36,18 +35,31 @@ public class CartController {
     @PostMapping(value = "/upsert")
     public ResponseEntity<List<CartDetail>> addProduct(
             @ApiParam(value = "User Id", required = true)
-            @RequestHeader(value = "userId", required = true) String userId,
+            @RequestHeader(value = "userId") String userId,
             @RequestBody @Validated List<CartRequest> cartRequest, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors() || userId.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (bindingResult.hasErrors() || userId.isEmpty() || cartRequest.isEmpty()) {
+            throw new InvalidRequestException("Invalid Request");
         }
+        validateListRequest(cartRequest);
         List<CartDetail> cartDetails = cartService.addProductToCart(userId, cartRequest);
         return new ResponseEntity<>(cartDetails, HttpStatus.OK);
     }
 
-    @DeleteMapping("/cart/{id}")
-    void deleteEmployee(@PathVariable int id) {
-        cartService.removeProductFromCart(id);
+    private void validateListRequest(List<CartRequest> cartRequest) {
+        cartRequest.forEach(item -> {
+            if ((item.getProductId() == null || item.getQuantity() == null)) {
+                throw new InvalidRequestException("Invalid Request");
+            }
+            if (item.getQuantity() != null && item.getQuantity() == 0)
+                throw new InvalidRequestException("Invalid Request");
+        });
+
+    }
+
+    @ApiOperation(value = "Delete cart details")
+    @DeleteMapping("/{cartId}")
+    void deleteCrt(@PathVariable int cartId) {
+        cartService.removeProductFromCart(cartId);
     }
 }

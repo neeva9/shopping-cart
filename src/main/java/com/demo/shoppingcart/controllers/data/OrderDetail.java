@@ -4,32 +4,38 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 
+/**
+ * Order Details
+ */
 @Data
 @Getter
 public class OrderDetail {
 
-    @ApiModelProperty(notes = "Cart Id", example = "1")
+    @ApiModelProperty(notes = "Cart Id", example = "123")
+    private String cartId;
+
+    @ApiModelProperty(notes = "User Name", example = "123")
     private String name;
 
-    @ApiModelProperty(notes = "User Id", example = "ABC Item")
+    @ApiModelProperty(notes = "User PhoneNo", example = "123")
     private String phoneNo;
 
-    @ApiModelProperty(notes = "Product Id", example = "ABC Item")
+    @ApiModelProperty(notes = "User Email", example = "123")
     private String email;
 
-    @ApiModelProperty(notes = "Cart Total", example = "ABC Description")
+    @ApiModelProperty(notes = "Product Name in Order", example = "ABC, BCD")
     private String productName;
 
-    @ApiModelProperty(notes = "Cart Total", example = "ABC Description")
+    @ApiModelProperty(notes = "Product Quantity", example = "ABC Description")
     private String productQuantity;
 
-    @ApiModelProperty(notes = "Cart Total", example = "ABC Description")
+    @ApiModelProperty(notes = "Product Rate", example = "ABC Description")
     private String productRate;
 
-    @ApiModelProperty(notes = "Cart Total", example = "ABC Description")
+    @ApiModelProperty(notes = "Order Total", example = "500")
     private String cartTotal;
 
-    @ApiModelProperty(notes = "Product Rate", example = "10.65")
+    @ApiModelProperty(notes = "Order Created Date")
     private String createdDate;
 
 }

@@ -17,4 +17,24 @@ public class ControllerException {
     public ResponseEntity<Object> handleException(ProductNotFoundException ex) {
         return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = {CartNotFoundException.class})
+    public ResponseEntity<Object> handleException(CartNotFoundException ex) {
+        return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {OrderNotFoundException.class})
+    public ResponseEntity<Object> handleException(OrderNotFoundException ex) {
+        return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {CartEmptyException.class})
+    public ResponseEntity<Object> handleException(CartEmptyException ex) {
+        return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {InvalidRequestException.class})
+    public ResponseEntity<Object> handleException(InvalidRequestException ex) {
+        return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
