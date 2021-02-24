@@ -4,8 +4,15 @@
 ````
 Java 8
 IntelliJ IDEA
+Gradle
 ````
-#### Build
+
+#### Database:
+````
+H2 embedded connection
+````
+
+#### Build:
 ````
 gradle clean build
 ````
