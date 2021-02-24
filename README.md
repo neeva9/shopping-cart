@@ -19,8 +19,7 @@ gradle clean build
 
 #### Run Application:
 ````
-Use the below JVM argument:
--Dspring.profile.actove=h2
+gradle bootRun
 ````
 
 #### Swagger:
