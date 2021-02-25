@@ -34,11 +34,10 @@ public class CartService {
 
     public List<CartDetail> addProductToCart(String userId, List<CartRequest> cartRequestList) {
         Optional<Profile> profile = validateUserDetails(userId);
-        List<Cart> cartList = null;
+        List<Cart> cartList = new ArrayList<>();
         List<CartDetail> cartDetails = new ArrayList<>();
         for (CartRequest cartRequest : cartRequestList) {
-            cartList = populateCart(profile, cartRequest);
-
+            populateCart(profile, cartRequest, cartList);
         }
 
         cartList.forEach(cart -> {
@@ -54,8 +53,7 @@ public class CartService {
         return cartDetails;
     }
 
-    private List<Cart> populateCart(Optional<Profile> userId, CartRequest cartRequest) {
-        List<Cart> cartList = new ArrayList<>();
+    private List<Cart> populateCart(Optional<Profile> userId, CartRequest cartRequest, List<Cart> cartList) {
         Optional<Product> productRepositoryById = productRepository.findById(Integer.parseInt(cartRequest.getProductId()));
         if (productRepositoryById.isPresent()) {
             Cart existingCart = cartRepository.findByProfileIdAndPrdtId(userId.get().getProfileId().toString(), productRepositoryById.get().getProductId().toString());
