@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartRepository extends CrudRepository<Cart, Integer> {
 
-    @Query(value = "select * from dbo.CART where PROFILE_ID= ?1 and PRDT_ID= ?2", nativeQuery = true)
-    Cart findByProfileIdAndPrdtId(String profileId, String productId);
+    @Query(value = "select * from dbo.CART where USER_ID= ?1 and PRDT_ID= ?2", nativeQuery = true)
+    Cart findByUserIdAndPrdtId(String userId, String productId);
 }

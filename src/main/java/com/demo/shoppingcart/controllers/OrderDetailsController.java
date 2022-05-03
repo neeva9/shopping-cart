@@ -8,10 +8,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,20 @@ public class OrderDetailsController {
     public ResponseEntity<List<OrderDetail>> checkoutOrder(@PathVariable String userId) {
 
         List<OrderDetail> orderDetails = orderService.checkoutOrder(userId);
+        return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Orders placed by user in descending order",
+            response = OrderDetail.class, responseContainer = "List")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @GetMapping("{userId}")
+    public ResponseEntity<List<OrderDetail>> orderDetail(@PathVariable String userId) {
+
+        List<OrderDetail> orderDetails = orderService.listOfOrders(userId);
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);
     }
 

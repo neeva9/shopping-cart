@@ -38,7 +38,7 @@ public class CartDetailsController {
             @RequestHeader(value = "userId") String userId,
             @RequestBody @Validated List<CartRequest> cartRequest, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors() || userId.isEmpty() || cartRequest.isEmpty()) {
+        if (bindingResult.hasErrors() || userId.isEmpty() || userId == null || cartRequest.isEmpty()) {
             throw new InvalidRequestException("Invalid Request");
         }
         validateListRequest(cartRequest);
@@ -47,6 +47,10 @@ public class CartDetailsController {
     }
 
     private void validateListRequest(List<CartRequest> cartRequest) {
+        boolean distinctProdId = cartRequest.size() > 1 && cartRequest.stream().map(CartRequest::getProductId).distinct().count() == 1;
+        if (distinctProdId) {
+            throw new InvalidRequestException("Product Id should be unique for each item to be added or updated to cart");
+        }
         cartRequest.forEach(item -> {
             if ((item.getProductId() == null || item.getQuantity() == null)) {
                 throw new InvalidRequestException("Invalid Request");

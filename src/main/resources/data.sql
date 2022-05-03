@@ -10,7 +10,7 @@ INSERT INTO DBO.PRODUCT (NAME, DESCRIPTION, RATE) VALUES
   ('Nanit Plus', 'The Nanit Plus addresses our issues with the original, like the lack of two-way audio, and brings new, incredibly useful features like breathing monitoring in addition to the sleep tracking. It''s expensive, but it delivers a wealth of data you can''t really put a price on, making it our top pick.', 249.99),
   ('Furbo Dog Camera', 'Furbo is essentially an indoor home security camera and dog nanny in one, offering clear 1080p video even in the dark, plus barking alerts and two-way audio so you can hear and talk to your pup. Perhaps best of all, it lets you toss treats to your pet when you''re out and about. The Furbo Dog Camera is pricey, especially compared with traditional security cameras, but it''s as useful as it is fun, and gives you peace of mind that your dog and home are safe.', 200.53);
 
-INSERT INTO DBO.PROFILE (FIRST_NAME, LAST_NAME, PHONE, EMAIL) VALUES
+INSERT INTO DBO.USER (FIRST_NAME, LAST_NAME, PHONE, EMAIL) VALUES
   ('UserFirstNameA', 'UserLastNameA', '1234567890', 'a.email@test.com'),
   ('UserFirstNameB', 'UserLastNameB', '7894520631', 'b.email@test.com'),
   ('UserFirstNameC', 'UserLastNameC', '8542036179', 'c.email@test.com');

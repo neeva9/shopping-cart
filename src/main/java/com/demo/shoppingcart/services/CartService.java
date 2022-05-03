@@ -4,7 +4,7 @@ import com.demo.shoppingcart.controllers.data.CartDetail;
 import com.demo.shoppingcart.controllers.data.CartRequest;
 import com.demo.shoppingcart.entity.Cart;
 import com.demo.shoppingcart.entity.Product;
-import com.demo.shoppingcart.entity.Profile;
+import com.demo.shoppingcart.entity.User;
 import com.demo.shoppingcart.exception.CartNotFoundException;
 import com.demo.shoppingcart.exception.ProductNotFoundException;
 import com.demo.shoppingcart.exception.UserNotFoundException;
@@ -33,17 +33,17 @@ public class CartService {
 
 
     public List<CartDetail> addProductToCart(String userId, List<CartRequest> cartRequestList) {
-        Optional<Profile> profile = validateUserDetails(userId);
+        Optional<User> user = validateUserDetails(userId);
         List<Cart> cartList = new ArrayList<>();
         List<CartDetail> cartDetails = new ArrayList<>();
         for (CartRequest cartRequest : cartRequestList) {
-            populateCart(profile, cartRequest, cartList);
+            populateCart(user, cartRequest, cartList);
         }
 
         cartList.forEach(cart -> {
             CartDetail cartDetail = new CartDetail();
             cartDetail.setCartId(String.valueOf(cart.getCartId()));
-            cartDetail.setUserId(cart.getProfileId().toString());
+            cartDetail.setUserId(cart.getUserId().toString());
             cartDetail.setProductId(cart.getProductId().toString());
             cartDetail.setTotal(String.valueOf(cart.getTotal()));
             cartDetail.setCreatedDate(String.valueOf(cart.getCreatedDate()));
@@ -53,16 +53,16 @@ public class CartService {
         return cartDetails;
     }
 
-    private List<Cart> populateCart(Optional<Profile> userId, CartRequest cartRequest, List<Cart> cartList) {
+    private List<Cart> populateCart(Optional<User> userId, CartRequest cartRequest, List<Cart> cartList) {
         Optional<Product> productRepositoryById = productRepository.findById(Integer.parseInt(cartRequest.getProductId()));
         if (productRepositoryById.isPresent()) {
-            Cart existingCart = cartRepository.findByProfileIdAndPrdtId(userId.get().getProfileId().toString(), productRepositoryById.get().getProductId().toString());
+            Cart existingCart = cartRepository.findByUserIdAndPrdtId(userId.get().getUserId().toString(), productRepositoryById.get().getProductId().toString());
 
             if (existingCart == null) {
 
                 Cart cart = new Cart();
                 cart.setProductId(productRepositoryById.get().getProductId());
-                cart.setProfileId(userId.get().getProfileId());
+                cart.setUserId(userId.get().getUserId());
                 cart.setQuantity(Integer.valueOf(cartRequest.getQuantity()));
                 cart.setTotal(Double.valueOf(Math.round(Integer.valueOf(cartRequest.getQuantity()) * productRepositoryById.get().getRate())));
                 cartList.add(cartRepository.save(cart));
@@ -81,8 +81,8 @@ public class CartService {
         return cartList;
     }
 
-    private Optional<Profile> validateUserDetails(String userId) {
-        Optional<Profile> userRepositoryById = userRepository.findById(Integer.valueOf(userId));
+    private Optional<User> validateUserDetails(String userId) {
+        Optional<User> userRepositoryById = userRepository.findById(Integer.valueOf(userId));
         if (userRepositoryById.isPresent()) {
             return userRepositoryById;
         } else {

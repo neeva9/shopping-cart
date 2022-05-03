@@ -31,8 +31,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartId;
 
-    @Column(name = "PROFILE_ID")
-    private Integer profileId;
+    @Column(name = "USER_ID")
+    private Integer userId;
 
     @Column(name = "PRDT_ID")
     private Integer productId;
@@ -52,8 +52,8 @@ public class Cart {
     private ZonedDateTime updatedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PROFILE_ID", referencedColumnName = "PROFILE_ID", insertable = false, updatable = false)
-    private Profile profile;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRDT_ID", referencedColumnName = "PRDT_ID", insertable = false, updatable = false)
