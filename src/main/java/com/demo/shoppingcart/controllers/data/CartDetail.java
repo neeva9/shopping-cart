@@ -1,5 +1,6 @@
 package com.demo.shoppingcart.controllers.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Getter;
  */
 @Data
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartDetail {
 
     @ApiModelProperty(notes = "Cart Id", example = "123")

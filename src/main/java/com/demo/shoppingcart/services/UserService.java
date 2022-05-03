@@ -1,7 +1,7 @@
 package com.demo.shoppingcart.services;
 
 import com.demo.shoppingcart.controllers.data.UserDetail;
-import com.demo.shoppingcart.entity.Profile;
+import com.demo.shoppingcart.entity.User;
 import com.demo.shoppingcart.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ public class UserService {
 
     public List<UserDetail> getUserDetails() {
         List<UserDetail> userDetails = new ArrayList<>();
-        Iterable<Profile> products = userRepository.findAll();
-        products.forEach(profile -> {
+        Iterable<User> users = userRepository.findAll();
+        users.forEach(user -> {
             UserDetail userDetail = new UserDetail();
-            userDetail.setProfileId(profile.getProfileId() != null ? String.valueOf(profile.getProfileId()) : null);
-            userDetail.setFirstName(profile.getFirstName() != null ? profile.getFirstName() : null);
-            userDetail.setLastName(profile.getLastName() != null ? profile.getLastName() : null);
-            userDetail.setPhoneNo(profile.getPhone() != null ? profile.getPhone() : null);
-            userDetail.setEmail(profile.getEmail() != null ? profile.getEmail() : null);
+            userDetail.setUserId(user.getUserId() != null ? String.valueOf(user.getUserId()) : null);
+            userDetail.setFirstName(user.getFirstName() != null ? user.getFirstName() : null);
+            userDetail.setLastName(user.getLastName() != null ? user.getLastName() : null);
+            userDetail.setPhoneNo(user.getPhone() != null ? user.getPhone() : null);
+            userDetail.setEmail(user.getEmail() != null ? user.getEmail() : null);
             userDetails.add(userDetail);
         });
         return userDetails;

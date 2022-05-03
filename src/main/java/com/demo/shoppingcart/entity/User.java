@@ -11,17 +11,17 @@ import javax.persistence.*;
  * Entity object for User details.
  */
 @Entity
-@Table(name = "PROFILE", schema = "dbo")
+@Table(name = "USER", schema = "dbo")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Profile {
+public class User {
 
     @Id
-    @Column(name = "PROFILE_ID")
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer profileId;
+    private Integer userId;
 
     @Column(name = "FIRST_NAME")
     private String firstName;

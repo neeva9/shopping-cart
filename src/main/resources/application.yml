@@ -1,16 +1,17 @@
 spring:
-  profiles:
-    active: h2
   datasource:
     url: jdbc:h2:file:~/data/cart;DB_CLOSE_ON_EXIT=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS dbo
-    driverCalssName: org.h2.Driver
+    driverClassName: org.h2.Driver
     username: sa
     password:
-#    initialization-mode: always
-#    data: classpath*:/data.sql
+    initialization-mode: always
+    data: classpath*:/data.sql
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show_sql: true
+#    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
